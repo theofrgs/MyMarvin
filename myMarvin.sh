@@ -244,8 +244,8 @@ Test_Path
 Test_Quit
 Test_Noop
 Test_Help
-Test_Pasv
-Test_Port
+# Test_Pasv
+# Test_Port  to modify
 # Test_List_active
 Percent
 
