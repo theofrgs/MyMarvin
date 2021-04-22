@@ -158,6 +158,26 @@ Test_User()
     kill_client
 }
 
+Test_Wrong_Cmd()
+{
+    launch_client $HOST $PORT
+    send_Cmd "User" "USER $USERNAME"
+    send_Cmd "PASS" "PASS $PASS"
+    launch_test "Wrong command" "KUMMVJHZ" 500
+    clean
+    kill_client
+}
+
+Test_Only_space_command()
+{
+    launch_client $HOST $PORT
+    send_Cmd "User" "USER $USERNAME"
+    send_Cmd "PASS" "PASS $PASS"
+    launch_test "Only space command" "" 500
+    clean
+    kill_client
+}
+
 Test_Path()
 {
     launch_client $HOST $PORT
@@ -239,13 +259,15 @@ Test_List_active()
 
 clear
 
-Test_User
+# Test_User
+# Test_Wrong_Cmd
+Test_Only_space_command
 Test_Path
-Test_Quit
-Test_Noop
-Test_Help
+# Test_Quit
+# Test_Noop
+# Test_Help
 # Test_Pasv
-# Test_Port  to modify
+# Test_Port
 # Test_List_active
 Percent
 
