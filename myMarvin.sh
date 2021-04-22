@@ -173,7 +173,7 @@ Test_Only_space_command()
     launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "Only space command" "" 500
+    launch_test "Only space command" " " 500
     clean
     kill_client
 }
@@ -259,15 +259,15 @@ Test_List_active()
 
 clear
 
-# Test_User
-# Test_Wrong_Cmd
+Test_User
+Test_Wrong_Cmd
 Test_Only_space_command
 Test_Path
-# Test_Quit
-# Test_Noop
-# Test_Help
-# Test_Pasv
-# Test_Port
+Test_Quit
+Test_Noop
+Test_Help
+Test_Pasv
+Test_Port
 # Test_List_active
 Percent
 
