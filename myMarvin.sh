@@ -37,7 +37,6 @@ OK=0
 KO=0
 NB_TEST=0
 
-
 launch_client()
 {
     local host=$1
@@ -144,6 +143,11 @@ Test_User()
     clean
     kill_client
     launch_client $HOST $PORT
+    launch_test "User" "USER azref" 331
+    launch_test "PASS" "PASS $PASS" 530
+    clean
+    kill_client
+    launch_client $HOST $PORT
     launch_test "pass without login" "PASS $PASS" 332
     clean
     kill_client
@@ -197,6 +201,7 @@ Test_Quit()
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
     launch_test "QUIT" "QUIT" 221
+    launch_test "NOOP" "NOOP" ""
     clean
     kill_client
 }
@@ -256,6 +261,10 @@ Test_List_active()
     clean
     kill_client
 }
+
+mkdir -p /tmp/server/dir_1
+mkdir -p /tmp/server/lol
+mkdir -p /tmp/server/dir_2
 
 clear
 
