@@ -32,7 +32,7 @@ PIPE=fifo
 OUT=outfile
 TAIL=`which tail`
 NC="`which nc` -C"
-TIMEOUT=0.03
+TIMEOUT=0.05
 OK=0
 KO=0
 NB_TEST=0
@@ -50,6 +50,7 @@ Close_server()
     local pid=$1
 
     kill $PID 2>/dev/null
+    sleep $TIMEOUT
 }
 
 Launch_client()
@@ -218,7 +219,6 @@ Test_Quit()
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
     Launch_test "QUIT" "QUIT" 221
-    Launch_test "NOOP" "NOOP" ""
     clean
     kill_client
 }
@@ -282,10 +282,9 @@ Test_List_active()
 mkdir -p /tmp/server/dir_1
 mkdir -p /tmp/server/lol
 mkdir -p /tmp/server/dir_2
-
+make
 clear
 
-Launch_server $PORT
 Test_User
 Test_Wrong_Cmd
 Test_Only_space_command
@@ -297,8 +296,6 @@ Test_Pasv
 Test_Port
 # Test_List_active
 Percent
-echo "kill"
-Close_server $PID
 
 rm expected.txt 2>/dev/null
 rm output.txt 2>/dev/null
