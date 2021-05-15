@@ -1,0 +1,31 @@
+name: Unit Tests with Makefile C
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    container: frnikho/criterion:0.4
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download libraries
+        run: apt install -y uuid-dev
+      - name: make tests_run
+        run: make tests_run
+      - name: Generate Artifacts
+        run:  |
+          mkdir results
+          gcovr -e tests > results/trace_coverage.txt
+          ./tests/unit_tests --tap=results/trace_unit_tests.md
+      - name: Upload unit_tests trace artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: trace
+          path: results/

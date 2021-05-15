@@ -37,17 +37,33 @@ OK=0
 KO=0
 NB_TEST=0
 
-launch_client()
+Launch_server()
+{
+    local port=$1
+
+    ./myftp $port /tmp/server &
+    PID=$!
+}
+
+Close_server()
+{
+    local pid=$1
+
+    kill $PID 2>/dev/null
+}
+
+Launch_client()
 {
     local host=$1
     local port=$2
 
+    Launch_server $port
     $MKFIFO $PIPE 2>/dev/null
     ($TAIL -f $PIPE 2>/dev/null | $NC $host $port &> $OUT &) >/dev/null 2>/dev/null
     sleep $TIMEOUT
     getcode 220
     if [[ ! $? -eq 1 ]]; then
-        echo "Could launch client or code client false"
+        echo "Could Launch client or code client false"
         kill_client
         exit 1
     fi
@@ -97,7 +113,7 @@ send_Cmd()
     sleep $TIMEOUT
 }
 
-launch_test()
+Launch_test()
 {
   local test_name=$1
   local cmd=$2
@@ -128,6 +144,7 @@ kill_client()
         killall $nc &>/dev/null
     fi
     rm -f $PIPE $OUT &> /dev/null
+    Close_server
 }
 
 clean()
@@ -137,81 +154,81 @@ clean()
 
 Test_User()
 {
-    launch_client $HOST $PORT
-    launch_test "User" "USER $USERNAME" 331
-    launch_test "PASS" "PASS $PASS" 230
+    Launch_client $HOST $PORT
+    Launch_test "User" "USER $USERNAME" 331
+    Launch_test "PASS" "PASS $PASS" 230
     clean
     kill_client
-    launch_client $HOST $PORT
-    launch_test "User" "USER azref" 331
-    launch_test "PASS" "PASS $PASS" 530
+    Launch_client $HOST $PORT
+    Launch_test "User" "USER azref" 331
+    Launch_test "PASS" "PASS $PASS" 530
     clean
     kill_client
-    launch_client $HOST $PORT
-    launch_test "pass without login" "PASS $PASS" 332
+    Launch_client $HOST $PORT
+    Launch_test "pass without login" "PASS $PASS" 332
     clean
     kill_client
-    launch_client $HOST $PORT
-    launch_test "No authentication" "PWD" 530
+    Launch_client $HOST $PORT
+    Launch_test "No authentication" "PWD" 530
     clean
     kill_client
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "USER" "USER 9MhAl8o0"
-    launch_test "Wrong Authentication" "PWD" 530
+    Launch_test "Wrong Authentication" "PWD" 530
     clean
     kill_client
 }
 
 Test_Wrong_Cmd()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "Wrong command" "KUMMVJHZ" 500
+    Launch_test "Wrong command" "KUMMVJHZ" 500
     clean
     kill_client
 }
 
 Test_Only_space_command()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "Only space command" " " 500
+    Launch_test "Only space command" " " 500
     clean
     kill_client
 }
 
 Test_Path()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "CWD" "CWD lol" 250
-    launch_test "CDUP" "CDUP" 250
-    launch_test "CDUP" "CDUP" 250
-    launch_test "PWD" "PWD" 257
+    Launch_test "CWD" "CWD lol" 250
+    Launch_test "CDUP" "CDUP" 250
+    Launch_test "CDUP" "CDUP" 250
+    Launch_test "PWD" "PWD" 257
     clean
     kill_client
 }
 
 Test_Quit()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "QUIT" "QUIT" 221
-    launch_test "NOOP" "NOOP" ""
+    Launch_test "QUIT" "QUIT" 221
+    Launch_test "NOOP" "NOOP" ""
     clean
     kill_client
 }
 
 Test_Noop()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "NOOP" "NOOP" 200
+    Launch_test "NOOP" "NOOP" 200
     send_Cmd "QUIT" "QUIT"
     clean
     kill_client
@@ -219,10 +236,10 @@ Test_Noop()
 
 Test_Help()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "HELP" "HELP" 214
+    Launch_test "HELP" "HELP" 214
     send_Cmd "QUIT" "QUIT"
     clean
     kill_client
@@ -230,10 +247,10 @@ Test_Help()
 
 Test_Pasv()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "PASV" "PASV" 227
+    Launch_test "PASV" "PASV" 227
     send_Cmd "QUIT" "QUIT"
     clean
     kill_client
@@ -241,10 +258,10 @@ Test_Pasv()
 
 Test_Port()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
-    launch_test "PORT" "PORT 127,0,0,1,148,119" 200
+    Launch_test "PORT" "PORT 127,0,0,1,148,119" 200
     send_Cmd "QUIT" "QUIT"
     clean
     kill_client
@@ -252,7 +269,7 @@ Test_Port()
 
 Test_List_active()
 {
-    launch_client $HOST $PORT
+    Launch_client $HOST $PORT
     send_Cmd "User" "USER $USERNAME"
     send_Cmd "PASS" "PASS $PASS"
     send_Cmd "PORT" "PORT 127,0,0,1,148,119"
@@ -268,6 +285,7 @@ mkdir -p /tmp/server/dir_2
 
 clear
 
+Launch_server $PORT
 Test_User
 Test_Wrong_Cmd
 Test_Only_space_command
@@ -279,6 +297,8 @@ Test_Pasv
 Test_Port
 # Test_List_active
 Percent
+echo "kill"
+Close_server $PID
 
 rm expected.txt 2>/dev/null
 rm output.txt 2>/dev/null

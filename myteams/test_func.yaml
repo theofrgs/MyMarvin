@@ -1,0 +1,24 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  func_test:
+    env:
+      TERM: xterm-256color
+    container:
+      image: epitechcontent/epitest-docker
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download libraries
+        run: dnf -y install libuuid libuuid-devel
+      - name: Run units tests
+        run: make tests_run
+      - name: Run func test
+        run: make re && ./myMarvin.sh localhost 4241 | column -t -s $'\t'
