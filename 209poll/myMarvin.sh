@@ -41,8 +41,9 @@ Test()
     then
         echo "\t${rougefonce}FALSE  ✗"
         echo -n "${neutre}"
-        read -p "Display it ?(y/n): " display
+        # read -p "Display it ?(y/n): " display
         false=$((false+1))
+        display="y"
         if [ "$display" = "y" ]
         then
             cat trace.txt | cat -e
@@ -57,53 +58,67 @@ Test()
 
 clear
 
-./208dowels > myRslt.txt
+./209poll > myRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 84" > intraRslt.txt
 Test "No args" "myRslt.txt" "intraRslt.txt"
 
-./208dowels 6 4 10 18 20 19 11 5 > myRslt.txt
+./209poll 1 2 > myRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 84" > intraRslt.txt
-Test "Not enough args" "myRslt.txt" "intraRslt.txt"
+Test "Not enough" "myRslt.txt" "intraRslt.txt"
 
-./208dowels a 4 10 18 20 19 11 5 7 > myRslt.txt
+./209poll 1 b 3 > myRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 84" > intraRslt.txt
-Test "Bad arg small" "myRslt.txt" "intraRslt.txt"
+Test "Bad args" "myRslt.txt" "intraRslt.txt"
 
-./208dowels 6 4 10 18 b 19 11 5 7 > myRslt.txt
+./209poll 10000 500 142.24 > myRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 84" > intraRslt.txt
-Test "Bad arg random" "myRslt.txt" "intraRslt.txt"
+Test "Voting intention bad superior 100" "myRslt.txt" "intraRslt.txt"
 
-./208dowels 6 4 10 18 20 19 11 -5 7 > myRslt.txt
+./209poll -10000 500 42.24 > myRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 84" > intraRslt.txt
-Test "Bad arg negative" "myRslt.txt" "intraRslt.txt"
+Test "Population size negative" "myRslt.txt" "intraRslt.txt"
 
-./208dowels -6 4 10 18 20 19 11 5 7 > myRslt.txt
+./209poll 10000 -500 42.24 > myRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 84" > intraRslt.txt
-Test "Bad arg negative" "myRslt.txt" "intraRslt.txt"
+Test "Sample size negative" "myRslt.txt" "intraRslt.txt"
 
-./208dowels 6 4 10 18 20 19 11 5 7 > myRslt.txt
-echo "   x    | 0-1   | 2     | 3     | 4     | 5     | 6     | 7+    | Total\n  Ox    | 10    | 10    | 18    | 20    | 19    | 11    | 12    | 100\n  Tx    | 8.0   | 13.8  | 19.2  | 19.9  | 16.3  | 11.1  | 11.7  | 100\nDistribution:           B(100, 0.0410)\nChi-squared:            2.029\nDegrees of freedom:     5\nFit validity:           80% < P < 90%" > intraRslt.txt
+./209poll 10000 500 -42.24 > myRslt.txt
+echo "exit: $?" >> myRslt.txt
+echo "exit: 84" > intraRslt.txt
+Test "Voting intention negative" "myRslt.txt" "intraRslt.txt"
+
+./209poll 10000 11500 42.24 > myRslt.txt
+echo "exit: $?" >> myRslt.txt
+echo "exit: 84" > intraRslt.txt
+Test "Sample size > Populatio size" "myRslt.txt" "intraRslt.txt"
+
+./209poll 10000 0 42.24 > myRslt.txt
+echo "exit: $?" >> myRslt.txt
+echo "exit: 84" > intraRslt.txt
+Test "Sample size = 0" "myRslt.txt" "intraRslt.txt"
+
+./209poll 1 1 42.24 > myRslt.txt
+echo "exit: $?" >> myRslt.txt
+echo "exit: 84" > intraRslt.txt
+Test "Population size <= 1" "myRslt.txt" "intraRslt.txt"
+
+./209poll 10000 500 42.24 > myRslt.txt
+echo "Population size:         10000\nSample size:             500\nVoting intentions:       42.24%\nVariance:                0.000464\n95% confidence interval: [38.02%; 46.46%]\n99% confidence interval: [36.68%; 47.80%]" > intraRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 0" >> intraRslt.txt
-Test "Basic 01" "myRslt.txt" "intraRslt.txt"
+Test "Intra 01" "myRslt.txt" "intraRslt.txt"
 
-./208dowels 6 4 10 8 20 19 11 5 17 > myRslt.txt
-echo "   x    | 0-1   | 2-3   | 4     | 5     | 6-7   | 8+    | Total\n  Ox    | 10    | 18    | 20    | 19    | 16    | 17    | 100\n  Tx    | 5.2   | 26.7  | 19.1  | 17.7  | 22.2  | 9.0   | 100\nDistribution:           B(100, 0.0460)\nChi-squared:            16.119\nDegrees of freedom:     4\nFit validity:           P < 1%" > intraRslt.txt
+./209poll 10000 100 45 > myRslt.txt
+echo "Population size:         10000\nSample size:             100\nVoting intentions:       45.00%\nVariance:                0.002450\n95% confidence interval: [35.30%; 54.70%]\n99% confidence interval: [32.23%; 57.77%]" > intraRslt.txt
 echo "exit: $?" >> myRslt.txt
 echo "exit: 0" >> intraRslt.txt
-Test "Basic 02" "myRslt.txt" "intraRslt.txt"
-
-./208dowels 4 5 13 19 20 16 12 7 4 > myRslt.txt
-echo "   x    | 0-2   | 3     | 4     | 5     | 6     | 7+    | Total\n  Ox    | 22    | 19    | 20    | 16    | 12    | 11    | 100\n  Tx    | 23.1  | 19.7  | 19.9  | 16.0  | 10.6  | 10.7  | 100\nDistribution:           B(100, 0.0401)\nChi-squared:            0.270\nDegrees of freedom:     4\nFit validity:           P > 99%" > intraRslt.txt
-echo "exit: $?" >> myRslt.txt
-echo "exit: 0" >> intraRslt.txt
-Test "Basic 03" "myRslt.txt" "intraRslt.txt"
+Test "Intra 02" "myRslt.txt" "intraRslt.txt"
 
 echo -n "${neutre}["
 echo -n "${bleufonce}===="
