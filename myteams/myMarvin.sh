@@ -18,8 +18,8 @@ grisclair='\e[0;37m'
 blanc='\e[1;37m'
 neutre='\e[0;m'
 
-if [ "$#" -ne 2 ]; then
-    echo "USAGE: $0 host port"
+if [ "$#" -ne 3 ]; then
+    echo "USAGE: $0 host port alone[0-1]"
     exit 0
 fi
 
@@ -27,33 +27,57 @@ USERNAME="Anonymous"
 PASS=""
 HOST=$1
 PORT=$2
+ALONE=$3
 MKFIFO=`which mkfifo`
 PIPE=fifo
 OUT=outfile
 TAIL=`which tail`
 NC="`which nc` -C"
-TIMEOUT=0.02
+TIMEOUT=0.01
 OK=0
 KO=0
 NB_TEST=0
 
-Launch_client()
+function Launch_server()
+{
+    local port=$1
+
+    ./myteams_server $port &
+    PID=$!
+}
+
+function Close_server()
+{
+    local pid=$1
+
+    kill $pid 2>/dev/null
+    sleep $TIMEOUT
+}
+
+function Launch_client()
 {
     local host=$1
     local port=$2
+    local alone=$3
 
+    # Launch_server $port
     $MKFIFO $PIPE 2>/dev/null
     ($TAIL -f $PIPE 2>/dev/null | $NC $host $port &> $OUT &) >/dev/null 2>/dev/null
     sleep $TIMEOUT
-    getcode 220
+    getcode 600
     if [[ ! $? -eq 1 ]]; then
         echo "Could Launch client or code client false"
         kill_client
-        exit 1
+        if [ "$alone" -eq "1" ]
+        then
+            return 1
+        else
+            exit 1
+        fi
     fi
 }
 
-Percent()
+function Percent()
 {
     echo -ne "${neutre}["
     echo -ne "${bleufonce}===="
@@ -68,37 +92,39 @@ Percent()
     echo -ne "${neutre}"
 }
 
-getcode()
+function getcode()
 {
     sleep $TIMEOUT
     local code=$1
-    local data=`$TAIL -n 1 $OUT |cat -e | grep "^$code.*[$]$" | wc -l`
+    local data=`$TAIL -n 1 $OUT | cat -e | grep "^$code.*[$]$" | wc -l`
     return $data
 }
 
-print_failed()
+function print_failed()
 {
     echo -e "\t${rougefonce}FALSE  ✗${neutre}"
     echo "Expected code: $2"
     echo "Received : ["`$TAIL -n 1 $OUT| cat -e`"]"
     KO=$((KO+1))
+    echo -ne "${neutre}"
 }
 
-print_success()
+function print_success()
 {
     echo -e "\t${vertclair}OK 🗸"
+    echo -ne "${neutre}"
     rm trace.txt 2>/dev/null
     OK=$((OK+1))
 }
 
-send_Cmd()
+function send_Cmd()
 {
     local cmd=$2
     echo "$cmd" >$PIPE
     sleep $TIMEOUT
 }
 
-Launch_test()
+function Launch_test()
 {
     local test_name=$1
     local cmd=$2
@@ -116,7 +142,7 @@ Launch_test()
     NB_TEST=$((NB_TEST+1))
 }
 
-kill_client()
+function kill_client()
 {
     local nc=`which nc`
 
@@ -129,59 +155,164 @@ kill_client()
         killall $nc &>/dev/null
     fi
     rm -f $PIPE $OUT &> /dev/null
+    # Close_server $PID
 }
 
-clean()
+function clean()
 {
     rm -f $PIPE $OUT log &>/dev/null
 }
 
-Test_Connect()
+function Test_Connect()
 {
-    Launch_client $HOST $PORT
+    Launch_client $HOST $PORT $ALONE
     clean
     kill_client
 }
 
-Test_Only_space_command()
+function Test_Only_space_command()
 {
-    Launch_client $HOST $PORT
-    Launch_test "Only space command" " " 500
+    Launch_client $HOST $PORT $ALONE
+    Launch_test "Only space command" " " "500 Commande not found"
     clean
     kill_client
 }
 
-Test_Quit()
+function Test_Login()
 {
-    Launch_client $HOST $PORT
-    Launch_test "QUIT" "QUIT" 221
+    Launch_client $HOST $PORT $ALONE
+    Launch_test "LOGIN" "login theo" "1 login new name set: theo"
     clean
     kill_client
 }
 
-Launch_server()
+function Test_Unauthorized()
 {
-    local port=$1
-
-    echo "Server launch"
-    ./myteams_server $port &
-    PID=$!
+    Launch_client $HOST $PORT $ALONE
+    Launch_test "Unauthorized call" "print theo" "501 Need account to use this function"
+    clean
+    kill_client
 }
 
-Close_server()
+function Test_Print()
 {
-    local pid=$1
-
-    echo "Server close"
-    kill $PID 2>/dev/null
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Print" "print hello world" "0 hello world"
+    clean
+    kill_client
 }
 
-clear
+function Test_User()
+{
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Bad Args User" "user" "404 Bad args"
+    clean
+    kill_client
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Good cmd User" "user 123213" "4 user cmd"
+    clean
+    kill_client
+}
+
+function Test_Users()
+{
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Users" "users" "3 "
+    clean
+    kill_client
+}
+
+function Test_Help()
+{
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Help" "help" "0 "
+    clean
+    kill_client
+}
+
+function Test_Long_line()
+{
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Long line" "print hello world Baptiste Nicolas lol" "0 hello world Baptiste Nicolas lol"
+    clean
+    kill_client
+}
+
+function Test_Multiple_Command()
+{
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Multiple Line Command" "print hello\\nprint world" "0 world"
+    clean
+    kill_client
+}
+
+function Test_Logout()
+{
+    Launch_client $HOST $PORT $ALONE
+    send_Cmd "LOGIN" "login theo"
+    Launch_test "Logout with login" "logout" "2 Deconnected . . . "
+    clean
+    kill_client
+    Launch_client $HOST $PORT $ALONE
+    Launch_test "Logout only" "logout" "2 Deconnected . . . "
+    clean
+    kill_client
+}
+
+function Init()
+{
+    make 2> /dev/null
+    clear
+}
+
+function Find_Port()
+{
+    Launch_server $PORT
+    Launch_client $HOST $PORT $ALONE $ALONE #try to launch a client
+    if [ "$?" -eq "1" ] # if he failed then close server and launch on another port
+    then
+        PORT=$((PORT+1))
+        Close_server $PID
+        sleep $TIMEOUT
+
+        echo "New launch $PORT"
+        Launch_server $PORT
+        Find_Port
+    fi
+}
+if [ "$ALONE" -eq "1" ]
+then
+    echo "Alone"
+    Init
+    Find_Port
+fi
 
 Test_Connect
-Test_Quit
+Test_Logout
 Test_Only_space_command
+Test_Long_line
+Test_Multiple_Command
+Test_Unauthorized
+Test_Login
+Test_Print
+Test_User
+Test_Users
+# Test_Help
 Percent
 
+
+mf 2> /dev/null
 rm expected.txt 2>/dev/null
 rm output.txt 2>/dev/null
+
+if [ "$ALONE" == "1" ]
+then
+    Close_server $PID
+fi

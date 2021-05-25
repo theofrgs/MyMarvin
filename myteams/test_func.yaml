@@ -1,4 +1,4 @@
-name: Tests
+name: Tests functionnal
 
 on:
   push:
@@ -21,4 +21,4 @@ jobs:
       - name: Run units tests
         run: make tests_run
       - name: Run func test
-        run: make re && ./myMarvin.sh localhost 4241 | column -t -s $'\t'
+        run: make re && ./myMarvin.sh localhost 4242 1 | column -t -s $'\t'
