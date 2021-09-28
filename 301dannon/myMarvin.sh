@@ -92,6 +92,13 @@ echo "exit value: $?" >> myRslt.txt
 echo "exit value: 0" >> intraRslt.txt
 Test "Parsing with alpha" "myRslt.txt" "intraRslt.txt"
 
+echo "1aez124zre2\n13424;3254\";'\"()" > input.txt
+echo "5 elements\nSelection sort: 10 comparisons\nInsertion sort: 10 comparisons\nBubble sort: 10 comparisons\nQuicksort: 8 comparisons\nMerge sort: 6 comparisons" > intraRslt.txt
+./301dannon input.txt > myRslt.txt
+echo "exit value: $?" >> myRslt.txt
+echo "exit value: 0" >> intraRslt.txt
+Test "Parsing with alpha advanced" "myRslt.txt" "intraRslt.txt"
+
 echo "1" > input.txt
 echo "1 element\nSelection sort: 0 comparisons\nInsertion sort: 0 comparisons\nBubble sort: 0 comparisons\nQuicksort: 0 comparisons\nMerge sort: 0 comparisons" > intraRslt.txt
 ./301dannon input.txt > myRslt.txt
