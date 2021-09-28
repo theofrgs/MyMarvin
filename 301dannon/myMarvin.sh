@@ -86,7 +86,7 @@ echo "exit value: 84" > intraRslt.txt
 Test "file without numbers" "myRslt.txt" "intraRslt.txt"
 
 echo "1" > input.txt
-echo "1 element\nSelection sort: 0 comparison\nInsertion sort: 0 comparison\nBubble sort: 0 comparison\nQuicksort: 0 comparison\nMerge sort: 0 comparison" > intraRslt.txt
+echo "1 element\nSelection sort: 0 comparisons\nInsertion sort: 0 comparisons\nBubble sort: 0 comparisons\nQuicksort: 0 comparisons\nMerge sort: 0 comparisons" > intraRslt.txt
 ./301dannon input.txt > myRslt.txt
 echo "exit value: $?" >> myRslt.txt
 echo "exit value: 0" >> intraRslt.txt
