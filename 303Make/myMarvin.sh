@@ -75,19 +75,33 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Too many args" "myRslt.txt" "intraRslt.txt"
 
-# echo -e "Jesus is friends with Chuck Norris\nCindy Crawford is friends with Nicole Kidman\nV is friends with Barack Obama\nChuck Norris is friends with Barack Obama\nV is friends with François Hollande\nPenelope Cruiz is friends with Tom Cruise\nNicole Kidman is friends with Tom Cruise\nKatie Holmes is friends with Tom Cruise\nSim is friends with Lara Croft\nSim is friends with Chuck Norris\nLara Croft is friends with V\nYvette Horner is friends with Sim\nFrançois Hollande is friends with Barack Obama\nSim is friends with Jesus\nTom Cruise is friends with Barack Obama" > input.txt
-# echo -e "Barack Obama\nChuck Norris\nCindy Crawford\nFrançois Hollande\nJesus\nKatie Holmes\nLara Croft\nNicole Kidman\nPenelope Cruiz\nSim\nTom Cruise\nV\nYvette Horner\n\n0 1 0 1 0 0 0 0 0 0 1 1 0\n1 0 0 0 1 0 0 0 0 1 0 0 0\n0 0 0 0 0 0 0 1 0 0 0 0 0\n1 0 0 0 0 0 0 0 0 0 0 1 0\n0 1 0 0 0 0 0 0 0 1 0 0 0\n0 0 0 0 0 0 0 0 0 0 1 0 0\n0 0 0 0 0 0 0 0 0 1 0 1 0\n0 0 1 0 0 0 0 0 0 0 1 0 0\n0 0 0 0 0 0 0 0 0 0 1 0 0\n0 1 0 0 1 0 1 0 0 0 0 0 1\n1 0 0 0 0 1 0 1 1 0 0 0 0\n1 0 0 1 0 0 1 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 1 0 0 0\n\n0 1 3 1 2 2 2 2 2 2 1 1 3\n1 0 0 2 1 3 2 3 3 1 2 2 2\n3 0 0 0 0 3 0 1 3 0 2 0 0\n1 2 0 0 3 3 2 3 3 3 2 1 0\n2 1 0 3 0 0 2 0 0 1 3 3 2\n2 3 3 3 0 0 0 2 2 0 1 3 0\n2 2 0 2 2 0 0 0 0 1 3 1 2\n2 3 1 3 0 2 0 0 2 0 1 3 0\n2 3 3 3 0 2 0 2 0 0 1 3 0\n2 1 0 3 1 0 1 0 0 0 3 2 1\n1 2 2 2 3 1 3 1 1 3 0 2 0\n1 2 0 1 3 3 1 3 3 2 2 0 3\n3 2 0 0 2 0 2 0 0 1 0 3 0" > intraRslt.txt
-# ./303Make input.txt 3 > myRslt.txt
-# echo -e "exit value: $?" >> myRslt.txt
-# echo -e "exit value: 0" >> intraRslt.txt
-# Test "exmple 3" "myRslt.txt" "intraRslt.txt"
+echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
+echo -e "cc -c tty.c\ncc -o tty tty.o fc.o" > intraRslt.txt
+./303Make input.txt tty.c > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "dependency string .c" "myRslt.txt" "intraRslt.txt"
 
-# echo -e "Jesus is friends with Chuck Norris\nCindy Crawford is friends with Nicole Kidman\nV is friends with Barack Obama\nChuck Norris is friends with Barack Obama\nV is friends with François Hollande\nPenelope Cruiz is friends with Tom Cruise\nNicole Kidman is friends with Tom Cruise\nKatie Holmes is friends with Tom Cruise\nSim is friends with Lara Croft\nSim is friends with Chuck Norris\nLara Croft is friends with V\nYvette Horner is friends with Sim\nFrançois Hollande is friends with Barack Obama\nSim is friends with Jesus\nTom Cruise is friends with Barack Obama" > input.txt
-# echo -e "Degree of separation between Yvette Horner and Barack Obama: 3" > intraRslt.txt
-# ./303Make input.txt "Yvette Horner" "Barack Obama" > myRslt.txt
-# echo -e "exit value: $?" >> myRslt.txt
-# echo -e "exit value: 0" >> intraRslt.txt
-# Test "exmple \"Yvette Horner\" \"Barack Obama\"" "myRslt.txt" "intraRslt.txt"
+echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
+echo -e "cc -c fc.c\ncc -c tty.c\ncc -o tty tty.o fc.o" > intraRslt.txt
+./303make input.txt fc.h > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "dependency string .h" "myRslt.txt" "intraRslt.txt"
+
+echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
+echo -e "" > intraRslt.txt
+./303make input.txt tty > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" >> intraRslt.txt
+Test "dependency exec" "myRslt.txt" "intraRslt.txt"
+
+echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
+echo -e "[0 0 1 0 0 0]\n[0 0 1 0 0 1]\n[0 0 0 1 0 0]\n[0 0 0 0 0 0]\n[0 0 0 0 0 1]\n[0 0 0 1 0 0]\nfc.c -> fc.o -> tty\nfc.h -> fc.o -> tty\nfc.h -> tty.o -> tty\nfc.o -> tty\ntty.c -> tty.o -> tty\ntty.o -> tty" > intraRslt.txt
+./303make input.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "dependency graph - 01" "myRslt.txt" "intraRslt.txt"
 
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
