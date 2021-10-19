@@ -84,21 +84,21 @@ Test "dependency string .c" "myRslt.txt" "intraRslt.txt"
 
 echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
 echo -e "cc -c fc.c\ncc -c tty.c\ncc -o tty tty.o fc.o" > intraRslt.txt
-./303make input.txt fc.h > myRslt.txt
+./303Make input.txt fc.h > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "dependency string .h" "myRslt.txt" "intraRslt.txt"
 
 echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
 echo -e "" > intraRslt.txt
-./303make input.txt tty > myRslt.txt
+./303Make input.txt tty > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 84" >> intraRslt.txt
 Test "dependency exec" "myRslt.txt" "intraRslt.txt"
 
 echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
 echo -e "[0 0 1 0 0 0]\n[0 0 1 0 0 1]\n[0 0 0 1 0 0]\n[0 0 0 0 0 0]\n[0 0 0 0 0 1]\n[0 0 0 1 0 0]\nfc.c -> fc.o -> tty\nfc.h -> fc.o -> tty\nfc.h -> tty.o -> tty\nfc.o -> tty\ntty.c -> tty.o -> tty\ntty.o -> tty" > intraRslt.txt
-./303make input.txt > myRslt.txt
+./303Make input.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "dependency graph - 01" "myRslt.txt" "intraRslt.txt"
