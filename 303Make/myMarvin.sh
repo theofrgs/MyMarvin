@@ -51,7 +51,7 @@ Test()
             cat trace.txt | cat -e
         fi
     else
-        echo -e "\t${vertclair}OK 🗸"
+        echo -e "\t${vertclair}OK ✔"
         rm trace.txt 2>/dev/null
         ok=$((ok+1))
     fi
@@ -60,48 +60,68 @@ Test()
 
 clear
 
-./303Make > myRslt.txt
+./303make > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "No args" "myRslt.txt" "intraRslt.txt"
 
-./303Make loremp > myRslt.txt
+./303make loremp > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Bad file" "myRslt.txt" "intraRslt.txt"
 
-./303Make loremp erg rgt > myRslt.txt
+./303make loremp erg rgt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Too many args" "myRslt.txt" "intraRslt.txt"
 
+echo -e "" > input.txt
+./303make input.txt > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "File empty" "myRslt.txt" "intraRslt.txt"
+
 echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
 echo -e "cc -c tty.c\ncc -o tty tty.o fc.o" > intraRslt.txt
-./303Make input.txt tty.c > myRslt.txt
+./303make input.txt tty.c > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "dependency string .c" "myRslt.txt" "intraRslt.txt"
 
 echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
 echo -e "cc -c fc.c\ncc -c tty.c\ncc -o tty tty.o fc.o" > intraRslt.txt
-./303Make input.txt fc.h > myRslt.txt
+./303make input.txt fc.h > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "dependency string .h" "myRslt.txt" "intraRslt.txt"
 
 echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
 echo -e "" > intraRslt.txt
-./303Make input.txt tty > myRslt.txt
+./303make input.txt tty > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
-echo -e "exit value: 84" >> intraRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
 Test "dependency exec" "myRslt.txt" "intraRslt.txt"
 
 echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
-echo -e "[0 0 1 0 0 0]\n[0 0 1 0 0 1]\n[0 0 0 1 0 0]\n[0 0 0 0 0 0]\n[0 0 0 0 0 1]\n[0 0 0 1 0 0]\nfc.c -> fc.o -> tty\nfc.h -> fc.o -> tty\nfc.h -> tty.o -> tty\nfc.o -> tty\ntty.c -> tty.o -> tty\ntty.o -> tty" > intraRslt.txt
-./303Make input.txt > myRslt.txt
+echo -e "" > intraRslt.txt
+./303make input.txt ttykjn > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad dependency" "myRslt.txt" "intraRslt.txt"
+
+echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
+echo -e "[0 0 1 0 0 0]\n[0 0 1 0 0 1]\n[0 0 0 1 0 0]\n[0 0 0 0 0 0]\n[0 0 0 0 0 1]\n[0 0 0 1 0 0]\n\nfc.c -> fc.o -> tty\nfc.h -> fc.o -> tty\nfc.h -> tty.o -> tty\nfc.o -> tty\ntty.c -> tty.o -> tty\ntty.o -> tty" > intraRslt.txt
+./303make input.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "dependency graph - 01" "myRslt.txt" "intraRslt.txt"
+
+echo -e "tty: tty.o fc.o\ngcc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\ngcc -c tty.c\n\nfc.o: fc.c fc.h\ngcc -c fc.c" > input.txt
+echo -e "gcc -c tty.c\ngcc -o tty tty.o fc.o" > intraRslt.txt
+./303make input.txt tty.c > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "dependency string gcc" "myRslt.txt" "intraRslt.txt"
 
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
