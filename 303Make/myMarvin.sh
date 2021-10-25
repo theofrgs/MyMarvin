@@ -123,6 +123,20 @@ echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "dependency string gcc" "myRslt.txt" "intraRslt.txt"
 
+echo -e "tty: tty.o fc.o\ncc -o tty tty.o fc.o\n\ntty.o: tty.c fc.h\necho "rien"\ncc -c tty.c\n\nfc.o: fc.c fc.h\ncc -c fc.c" > input.txt
+echo -e "[0 0 1 0 0 0]\n[0 0 1 0 0 1]\n[0 0 0 1 0 0]\n[0 0 0 0 0 0]\n[0 0 0 0 0 1]\n[0 0 0 1 0 0]\n\nfc.c -> fc.o -> tty\nfc.h -> fc.o -> tty\nfc.h -> tty.o -> tty\nfc.o -> tty\ntty.c -> tty.o -> tty\ntty.o -> tty" > intraRslt.txt
+./303make input.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Echo" "myRslt.txt" "intraRslt.txt"
+
+echo -e "proj: main.o func1.o func2.o\ngcc main.o func1.o func2.o -o proj\n\nmain.o: main.c proj.h\ngcc -c main.c -o main.o\n\nfunc1.o: func1.c proj.h\ngcc -c func1.c -o func1.o\n\nfunc2.o: func2.c proj.h\ngcc -c func2.c -o func2.o" > input.txt
+echo -e "[0 1 0 0 0 0 0 0]\n[0 0 0 0 0 0 1 0]\n[0 0 0 1 0 0 0 0]\n[0 0 0 0 0 0 1 0]\n[0 0 0 0 0 1 0 0]\n[0 0 0 0 0 0 1 0]\n[0 0 0 0 0 0 0 0]\n[0 1 0 1 0 1 0 0]\n\nfunc1.c -> func1.o -> proj\nfunc1.o -> proj\nfunc2.c -> func2.o -> proj\nfunc2.o -> proj\nmain.c -> main.o -> proj\nmain.o -> proj\nproj.h -> func1.o -> proj\nproj.h -> func2.o -> proj\nproj.h -> main.o -> proj" > intraRslt.txt
+./303make input.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "gcc full" "myRslt.txt" "intraRslt.txt"
+
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
 echo -e -n "${neutre}] Synthesis: Tested: "
