@@ -75,6 +75,12 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Too many args" "myRslt.txt" "intraRslt.txt"
 
+echo -e "efcds\nfrev\ndze\nfrev" > input.txt
+./303make input.txt > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Nonsensical arg" "myRslt.txt" "intraRslt.txt"
+
 echo -e "" > input.txt
 ./303make input.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
