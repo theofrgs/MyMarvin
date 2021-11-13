@@ -92,6 +92,18 @@ echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "no ghost" "myRslt.txt" "intraRslt.txt"
 
+echo -e "1111111111\n0F00000000\n0000000000\n0000F00000\n0000000000\n0000000000\n00P0000000\n0000000000\n0000000000\n1111111111" > input.txt
+./304pacman input.txt '+' ' ' > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "severals ghosts" "myRslt.txt" "intraRslt.txt"
+
+echo -e "1111111111\n0P00000000\n0000000000\n0000F00000\n0000000000\n0000000000\n00P0000000\n0000000000\n0000000000\n1111111111" > input.txt
+./304pacman input.txt '+' ' ' > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "severals pacman" "myRslt.txt" "intraRslt.txt"
+
 echo -e "1111111111\n0000000000\n0000000000\n000000aa00\n00000F0000\n0000000000\n0000000000\n0000000000\n0000000000\n1111111111" > input.txt
 ./304pacman input.txt '+' ' ' > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
