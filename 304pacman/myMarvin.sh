@@ -80,6 +80,36 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Too many args" "myRslt.txt" "intraRslt.txt"
 
+echo -e "1111111111\n0000000000\n0000000000\n0000000000\n00000F0000\n0000000000\n0000000000\n0000000000\n0000000000\n1111111111" > input.txt
+./304pacman input.txt '+' ' ' > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "no pacman" "myRslt.txt" "intraRslt.txt"
+
+echo -e "1111111111\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n00P0000000\n0000000000\n0000000000\n1111111111" > input.txt
+./304pacman input.txt '+' ' ' > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "no ghost" "myRslt.txt" "intraRslt.txt"
+
+echo -e "1111111111\n0000000000\n0000000000\n000000aa00\n00000F0000\n0000000000\n0000000000\n0000000000\n0000000000\n1111111111" > input.txt
+./304pacman input.txt '+' ' ' > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Unknown character -01" "myRslt.txt" "intraRslt.txt"
+
+echo -e "1111111111\n0000000000\n0000000000\n000000--00\n00000F0000\n0000000000\n0000000000\n0000000000\n0000000000\n1111111111" > input.txt
+./304pacman input.txt '+' ' ' > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Unknown character -01" "myRslt.txt" "intraRslt.txt"
+
+echo -e "1111111111\n0000000000\n0000000000\n0000000000\n00000F0000\n0000000000\n0000000000\n0000000000\n00000000000000000\n1111111111" > input.txt
+./304pacman input.txt '+' ' ' > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Map not rectangular" "myRslt.txt" "intraRslt.txt"
+
 echo -e "1111111111\n0000000000\n0000000000\n0000000000\n00000F0000\n0000000000\n00000P0000\n0000000000\n0000000000\n1111111111" > input.txt
 echo -e "++++++++++\n          \n     2    \n    212   \n    1F12  \n     12   \n     P    \n          \n          \n++++++++++" > intraRslt.txt
 ./304pacman input.txt '+' ' ' > myRslt.txt
@@ -107,12 +137,6 @@ echo -e "+7654321098789+76+4567+101234++++      + + ++ \n98+432+++8+6+8+6543+++7
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "noPath 2" "myRslt.txt" "intraRslt.txt"
-
-echo -e "1111111111\n0000000000\n0000000000\n0000000000\n00000F0000\n0000000000\n0000000000\n0000000000\n0000000000\n1111111111" > input.txt
-./304pacman input.txt '+' ' ' > myRslt.txt
-echo -e "exit value: $?" >> myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "no pacman" "myRslt.txt" "intraRslt.txt"
 
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
