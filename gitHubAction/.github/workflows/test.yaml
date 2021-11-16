@@ -1,0 +1,30 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - master
+
+jobs:
+  func_test:
+    env:
+      TERM: xterm-256color
+    container:
+      image: epitechcontent/epitest-docker
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - run: mkdir -p artifact
+      - name: Run functional tests
+        run: ./myMarvin.sh > artifact/function-tests_outputs.txt
+      - name: Display funcitonal results
+        if: ${{ always() }}
+        continue-on-error: true
+        run: cat artifact/function-tests_outputs.txt | column -t -s $'\t'
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Upload artifacts
+          path: artifact/
