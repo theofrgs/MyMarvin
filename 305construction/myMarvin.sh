@@ -75,11 +75,12 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Too many args" "myRslt.txt" "intraRslt.txt"
 
-# echo -e "1111111111\n0000000000\n0000000000\n0000000000\n00000F0000\n0000000000\n0000000000\n0000000000\n0000000000\n1111111111" > input.txt
-# ./305construction input.txt '+' ' ' > myRslt.txt
-# echo -e "exit value: $?" >> myRslt.txt
-# echo -e "exit value: 84" > intraRslt.txt
-# Test "no pacman" "myRslt.txt" "intraRslt.txt"
+echo -e "Car;carpenter;4;Fou\nHea;heat;3;Ele;Mas\nCov;cover;2;Car\nEle;electricity;1;Cov;Mas\nFin;finishing touches;9;Cov;Ele;Mas;Plu\nFou;foundations;8;Lan\nMas;masonry;4;Lan;Fou\nPlu;plumbing;1;Ele;Mas\nLan;landscaping;3" > input.txt
+echo -e "Total duration of construction: 28 weeks\n\nLan must begin at t=0\nFou must begin at t=3\nCar must begin at t=11\nMas must begin between t=11 and t=13\nCov must begin at t=15\nEle must begin at t=17\nPlu must begin at t=18\nHea must begin between t=18 and t=25\nFin must begin at t=19\n\nLan\t(0)\t===\nFou\t(0)\t   ========\nCar\t(0)\t           ====\nMas\t(2)\t           ====\nCov\t(0)\t               ==\nEle\t(0)\t                 =\nPlu\t(0)\t                  =\nHea\t(7)\t                  ===\nFin\t(0)\t                   =========" > intraRslt.txt
+./305construction input.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic - 01" "myRslt.txt" "intraRslt.txt"
 
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
@@ -92,6 +93,6 @@ echo -e -n "${vertfonce}"
 echo -e -n 'print("%0.2f" % ('$ok/$nbrTest*100'), end="")' | python3
 echo -e "%"
 
-rm intraRslt.txt
-rm myRslt.txt
-rm input.txt
+rm intraRslt.txt 2>/dev/null
+rm myRslt.txt 2>/dev/null
+rm input.txt 2>/dev/null
