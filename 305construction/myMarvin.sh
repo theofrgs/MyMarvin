@@ -75,6 +75,24 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Too many args" "myRslt.txt" "intraRslt.txt"
 
+echo -e "aezrtgyhtgvefzda" > input.txt
+./305construction input.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "inconsistent content -- 01" "myRslt.txt" "intraRslt.txt"
+
+echo -e "car;3\nHea;heat;3;Ele;Mas" > input.txt
+./305construction input.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "inconsistent content -- 02" "myRslt.txt" "intraRslt.txt"
+
+echo -e "Car:carpenter:4:Fou\nHea:heat:3:Ele:Mas\nCov:cover:2:Car\nEle:electricity:1:Cov:Mas\nFin:finishing touches:9:Cov:Ele:Mas:Plu\nFou:foundations:8:Lan\nMas:masonry:4:Lan:Fou\nPlu:plumbing:1:Ele:Mas\nLan:landscaping:3" > input.txt
+./305construction input.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "inconsistent content -- 03" "myRslt.txt" "intraRslt.txt"
+
 echo -e "Car;carpenter;4;Fou\nHea;heat;3;Ele;Mas\nCov;cover;2;Car\nEle;electricity;1;Cov;Mas\nFin;finishing touches;9;Cov;Ele;Mas;Plu\nFou;foundations;8;Lan\nMas;masonry;4;Lan;Fou\nPlu;plumbing;1;Ele;Mas\nLan;landscaping;3" > input.txt
 echo -e "Total duration of construction: 28 weeks\n\nLan must begin at t=0\nFou must begin at t=3\nCar must begin at t=11\nMas must begin between t=11 and t=13\nCov must begin at t=15\nEle must begin at t=17\nPlu must begin at t=18\nHea must begin between t=18 and t=25\nFin must begin at t=19\n\nLan\t(0)\t===\nFou\t(0)\t   ========\nCar\t(0)\t           ====\nMas\t(2)\t           ====\nCov\t(0)\t               ==\nEle\t(0)\t                 =\nPlu\t(0)\t                  =\nHea\t(7)\t                  ===\nFin\t(0)\t                   =========" > intraRslt.txt
 ./305construction input.txt > myRslt.txt
