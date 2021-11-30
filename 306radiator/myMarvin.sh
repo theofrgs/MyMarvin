@@ -90,6 +90,36 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Not enough args" "myRslt.txt" "intraRslt.txt"
 
+./306radiator 4 1 1 18 18 > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad coordinates -- 01" "myRslt.txt" "intraRslt.txt"
+
+./306radiator 4 1 1 14 -1 > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad coordinates -- 02" "myRslt.txt" "intraRslt.txt"
+
+./306radiator 4 1 1 -1 1 > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad coordinates -- 03" "myRslt.txt" "intraRslt.txt"
+
+./306radiator 4 1 0 11 1 > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad radiator coordinates -- 01" "myRslt.txt" "intraRslt.txt"
+
+./306radiator 4 0 1 11 1 > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad radiator coordinates -- 02" "myRslt.txt" "intraRslt.txt"
+
+./306radiator 4 167 1 11 1 > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad radiator coordinates -- 03" "myRslt.txt" "intraRslt.txt"
+
 echo -e "1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0\n0   4   0   0   4   -16 4   0   0   4   0   0   0   0   0   0\n0   0   4   0   0   4   -16 4   0   0   4   0   0   0   0   0\n0   0   0   0   0   0   0   1   0   0   0   0   0   0   0   0\n0   0   0   0   0   0   0   0   1   0   0   0   0   0   0   0\n0   0   0   0   0   4   0   0   4   -16 4   0   0   4   0   0\n0   0   0   0   0   0   4   0   0   4   -16 4   0   0   4   0\n0   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   1   0   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1\n\n0.0\n0.0\n0.0\n0.0\n0.0\n21.9\n6.3\n0.0\n0.0\n6.3\n3.1\n0.0\n0.0\n0.0\n0.0\n0.0" > intraRslt.txt
 ./306radiator 4 1 1 > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
