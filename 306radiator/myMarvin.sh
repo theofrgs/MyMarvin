@@ -36,6 +36,7 @@ Test()
     testTitle="$1"
     myRslt="$2"
     expectedRslt="$3"
+    cmd="$4"
     diff $myRslt $expectedRslt > trace.txt
 
     echo -e -n "${jaune}$testTitle:"
@@ -45,6 +46,7 @@ Test()
         echo -e -n "${neutre}"
         # read -p "Display it ?(y/n): " display
         false=$((false+1))
+        echo -e "\e[3m\"$(< cmd.txt)\"\e[0m"
         display="y"
         if [ "$display" = "y" ]
         then
@@ -60,95 +62,110 @@ Test()
 
 clear
 
-./306radiator > myRslt.txt
+echo "./306radiator" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "No args" "myRslt.txt" "intraRslt.txt"
+Test "No args" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator loremp > myRslt.txt
+echo "./306radiator loremp" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad arg -- 1" "myRslt.txt" "intraRslt.txt"
+Test "Bad arg -- 1" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 ./306radiator 4 1 1 1 > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- 2" "myRslt.txt" "intraRslt.txt"
+Test "Bad args -- 2" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator lol lol lol > myRslt.txt
+echo "./306radiator lol lol lol " > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- 3" "myRslt.txt" "intraRslt.txt"
+Test "Bad args -- 3" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 1 1 1 1 1 > myRslt.txt
+echo "./306radiator 4 1 1 1 1 1" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Too many args" "myRslt.txt" "intraRslt.txt"
+Test "Too many args" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 > myRslt.txt
+echo "./306radiator 4" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Not enough args" "myRslt.txt" "intraRslt.txt"
+Test "Not enough args" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 ./306radiator 4 1 1 18 18 > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad coordinates -- 01" "myRslt.txt" "intraRslt.txt"
+Test "Bad coordinates -- 01" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 1 1 14 -1 > myRslt.txt
+echo "./306radiator 4 1 1 14 -1" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad coordinates -- 02" "myRslt.txt" "intraRslt.txt"
+Test "Bad coordinates -- 02" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 1 1 -1 1 > myRslt.txt
+echo "./306radiator 4 1 1 -1 1" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad coordinates -- 03" "myRslt.txt" "intraRslt.txt"
+Test "Bad coordinates -- 03" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 1 0 11 1 > myRslt.txt
+echo "./306radiator 4 1 0 11 1" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad radiator coordinates -- 01" "myRslt.txt" "intraRslt.txt"
+Test "Bad radiator coordinates -- 01" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 0 1 11 1 > myRslt.txt
+echo "./306radiator 4 0 1 11 1" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad radiator coordinates -- 02" "myRslt.txt" "intraRslt.txt"
+Test "Bad radiator coordinates -- 02" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 167 1 11 1 > myRslt.txt
+echo "./306radiator 4 167 1 11 1" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad radiator coordinates -- 03" "myRslt.txt" "intraRslt.txt"
+Test "Bad radiator coordinates -- 03" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 echo -e "1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0\n0   4   0   0   4   -16 4   0   0   4   0   0   0   0   0   0\n0   0   4   0   0   4   -16 4   0   0   4   0   0   0   0   0\n0   0   0   0   0   0   0   1   0   0   0   0   0   0   0   0\n0   0   0   0   0   0   0   0   1   0   0   0   0   0   0   0\n0   0   0   0   0   4   0   0   4   -16 4   0   0   4   0   0\n0   0   0   0   0   0   4   0   0   4   -16 4   0   0   4   0\n0   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   1   0   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1\n\n0.0\n0.0\n0.0\n0.0\n0.0\n21.9\n6.3\n0.0\n0.0\n6.3\n3.1\n0.0\n0.0\n0.0\n0.0\n0.0" > intraRslt.txt
-./306radiator 4 1 1 > myRslt.txt
+echo "./306radiator 4 1 1" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic - 01" "myRslt.txt" "intraRslt.txt"
+Test "Basic - 01" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 echo -e "3.1" > intraRslt.txt
-./306radiator 4 1 1 2 2 > myRslt.txt
+echo "./306radiator 4 1 1 2 2" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic Point room - 01" "myRslt.txt" "intraRslt.txt"
+Test "Basic Point room - 01" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 echo -e "3.3" > intraRslt.txt
-./306radiator 5 1 2 3 2 > myRslt.txt
+echo "./306radiator 5 1 2 3 2" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic Point room - 02" "myRslt.txt" "intraRslt.txt"
+Test "Basic Point room - 02" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 echo -e "9.4" > intraRslt.txt
-./306radiator 8 4 6 3 6 > myRslt.txt
+echo "./306radiator 8 4 6 3 6" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic Point room - 03" "myRslt.txt" "intraRslt.txt"
+Test "Basic Point room - 03" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 echo -e "2.5" > intraRslt.txt
-./306radiator 12 3 9 1 6 > myRslt.txt
+echo "./306radiator 12 3 9 1 6" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic Point room - 04" "myRslt.txt" "intraRslt.txt"
+Test "Basic Point room - 04" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
