@@ -167,6 +167,11 @@ echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "Basic Point room - 04" "myRslt.txt" "intraRslt.txt" cmd.txt
 
+rm intraRslt.txt 2>/dev/null
+rm myRslt.txt 2>/dev/null
+rm input.txt 2>/dev/null
+rm cmd.txt 2>/dev/null
+
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
 echo -e -n "${neutre}] Synthesis: Tested: "
@@ -177,7 +182,3 @@ echo -e -n "${neutre}] Tot: "
 echo -e -n "${vertfonce}"
 echo -e -n 'print("%0.2f" % ('$ok/$nbrTest*100'), end="")' | python3
 echo -e "%"
-
-rm intraRslt.txt 2>/dev/null
-rm myRslt.txt 2>/dev/null
-rm input.txt 2>/dev/null
