@@ -96,6 +96,30 @@ echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "Basic - 01" "myRslt.txt" "intraRslt.txt"
 
+echo -e "3.1" > intraRslt.txt
+./306radiator 4 1 1 2 2 > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic Point room - 01" "myRslt.txt" "intraRslt.txt"
+
+echo -e "3.3" > intraRslt.txt
+./306radiator 5 1 2 3 2 > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic Point room - 02" "myRslt.txt" "intraRslt.txt"
+
+echo -e "9.4" > intraRslt.txt
+./306radiator 8 4 6 3 6 > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic Point room - 03" "myRslt.txt" "intraRslt.txt"
+
+echo -e "2.5" > intraRslt.txt
+./306radiator 12 3 9 1 6 > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic Point room - 04" "myRslt.txt" "intraRslt.txt"
+
 echo -e -n "${neutre}["
 echo -e -n "${bleufonce}===="
 echo -e -n "${neutre}] Synthesis: Tested: "
