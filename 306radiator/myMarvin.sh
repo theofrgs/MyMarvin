@@ -72,7 +72,7 @@ echo "./306radiator loremp" > cmd.txt
 bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
-Test "Bad arg -- 1" "myRslt.txt" "intraRslt.txt" cmd.txt
+Test "Bad args -- 1" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 ./306radiator 4 1 1 1 > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
@@ -84,6 +84,18 @@ bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Bad args -- 3" "myRslt.txt" "intraRslt.txt" cmd.txt
+
+echo "./306radiator lol lol lol lol lol" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad args -- 3" "myRslt.txt" "intraRslt.txt" cmd.txt
+
+echo "./306radiator 1 10 10" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad args -- 4" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 echo "./306radiator 4 1 1 1 1 1" > cmd.txt
 bash cmd.txt > myRslt.txt
@@ -97,7 +109,8 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Not enough args" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-./306radiator 4 1 1 18 18 > myRslt.txt
+echo "./306radiator 4 1 1 18 18" > cmd.txt
+bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Bad coordinates -- 01" "myRslt.txt" "intraRslt.txt" cmd.txt
@@ -132,7 +145,25 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Bad radiator coordinates -- 03" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-echo -e "1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   0   1   0   0   0   0   0   0   0   0   0   0   0   0\n0   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0\n0   4   0   0   4   -16 4   0   0   4   0   0   0   0   0   0\n0   0   4   0   0   4   -16 4   0   0   4   0   0   0   0   0\n0   0   0   0   0   0   0   1   0   0   0   0   0   0   0   0\n0   0   0   0   0   0   0   0   1   0   0   0   0   0   0   0\n0   0   0   0   0   4   0   0   4   -16 4   0   0   4   0   0\n0   0   0   0   0   0   4   0   0   4   -16 4   0   0   4   0\n0   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   1   0   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0\n0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1\n\n0.0\n0.0\n0.0\n0.0\n0.0\n21.9\n6.3\n0.0\n0.0\n6.3\n3.1\n0.0\n0.0\n0.0\n0.0\n0.0" > intraRslt.txt
+echo "./306radiator 4 167 1 11 1" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad radiator coordinates -- 03" "myRslt.txt" "intraRslt.txt" cmd.txt
+
+echo "./306radiator 4 1 1 2 3" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad radiator coordinates -- 04" "myRslt.txt" "intraRslt.txt" cmd.txt
+
+echo "./306radiator 4 1 1 3 2" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" > myRslt.txt
+echo -e "exit value: 84" > intraRslt.txt
+Test "Bad radiator coordinates -- 05" "myRslt.txt" "intraRslt.txt" cmd.txt
+
+echo -e "1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\t0\t0\t0\t0\t0\n0\t0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\t0\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t0\t0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\t0\n0\t0\t0\t0\t0\t0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\n\n0.0\n0.0\n0.0\n0.0\n0.0\n21.9\n6.3\n0.0\n0.0\n6.3\n3.1\n0.0\n0.0\n0.0\n0.0\n0.0" > intraRslt.txt
 echo "./306radiator 4 1 1" > cmd.txt
 bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
@@ -166,6 +197,13 @@ bash cmd.txt > myRslt.txt
 echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "Basic Point room - 04" "myRslt.txt" "intraRslt.txt" cmd.txt
+
+echo -e "21.9" > intraRslt.txt
+echo "./306radiator 4 1 1 1 1" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic Point room - 05" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 rm intraRslt.txt 2>/dev/null
 rm myRslt.txt 2>/dev/null
