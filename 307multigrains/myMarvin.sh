@@ -202,6 +202,13 @@ echo -e "exit value: $?" >> myRslt.txt
 echo -e "exit value: 0" >> intraRslt.txt
 Test "Basic - 02" "myRslt.txt" "intraRslt.txt" cmd.txt
 
+echo -e "Resources: 56 F1, 34 F2, 21 F3, 63 F4\n\nOat: 0.25 units at \$198/unit\nWheat: 13.25 units at \$259/unit\nCorn: 0 units at \$257/unit\nBarley: 7.25 units at \$231/unit\nSoy: 27.88 units at \$312/unit\n\nTotal production value: \$13853.00" > intraRslt.txt
+echo "./307multigrains 56 34 21 63 198 259 257 231 312" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic - 03" "myRslt.txt" "intraRslt.txt" cmd.txt
+
 rm intraRslt.txt 2>/dev/null
 rm myRslt.txt 2>/dev/null
 rm input.txt 2>/dev/null
