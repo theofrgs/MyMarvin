@@ -188,12 +188,19 @@ echo -e "exit value: $?" > myRslt.txt
 echo -e "exit value: 84" > intraRslt.txt
 Test "Bad args -- price of one unit of soy -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-# echo -e "1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\t0\t0\t0\t0\t0\n0\t0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\t0\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\n0\t0\t0\t0\t0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\t0\n0\t0\t0\t0\t0\t0\t4\t0\t0\t4\t-16\t4\t0\t0\t4\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\n0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\n\n0.0\n0.0\n0.0\n0.0\n0.0\n21.9\n6.3\n0.0\n0.0\n6.3\n3.1\n0.0\n0.0\n0.0\n0.0\n0.0" > intraRslt.txt
-# echo "./307multigrains 4 1 1" > cmd.txt
-# bash cmd.txt > myRslt.txt
-# echo -e "exit value: $?" >> myRslt.txt
-# echo -e "exit value: 0" >> intraRslt.txt
-# Test "Basic - 01" "myRslt.txt" "intraRslt.txt" cmd.txt
+echo -e "Resources: 10 F1, 100 F2, 10 F3, 0 F4\n\nOat: 0 units at \$200/unit\nWheat: 10.00 units at \$200/unit\nCorn: 0 units at \$200/unit\nBarley: 0 units at \$200/unit\nSoy: 0 units at \$200/unit\n\nTotal production value: \$2000.00" > intraRslt.txt
+echo "./307multigrains 10 100 10 0 200 200 200 200 200" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic - 01" "myRslt.txt" "intraRslt.txt" cmd.txt
+
+echo -e "Resources: 45 F1, 41 F2, 21 F3, 63 F4\n\nOat: 0 units at \$198/unit\nWheat: 20.00 units at \$259/unit\nCorn: 8.50 units at \$257/unit\nBarley: 1.00 units at \$231/unit\nSoy: 18.25 units at \$312/unit\n\nTotal production value: \$13289.50" > intraRslt.txt
+echo "./307multigrains 45 41 21 63 198 259 257 231 312" > cmd.txt
+bash cmd.txt > myRslt.txt
+echo -e "exit value: $?" >> myRslt.txt
+echo -e "exit value: 0" >> intraRslt.txt
+Test "Basic - 02" "myRslt.txt" "intraRslt.txt" cmd.txt
 
 rm intraRslt.txt 2>/dev/null
 rm myRslt.txt 2>/dev/null
