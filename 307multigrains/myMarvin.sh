@@ -21,6 +21,8 @@ ok=0
 false=0
 nbrTest=0
 
+nb_test=$((`cat myMarvin.json | jq '.tests | length'` - 1))
+
 if [ "$1" = "--help" ]
 then
     echo -e -n "${cyanclair}"
@@ -62,165 +64,33 @@ Test()
 
 clear
 
-echo "./307multigrains" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "No args" "myRslt.txt" "intraRslt.txt" cmd.txt
+function clean_repository()
+{
+    rm intraRslt.txt 2>/dev/null
+    rm myRslt.txt 2>/dev/null
+    rm input.txt 2>/dev/null
+    rm cmd.txt 2>/dev/null
+}
 
-echo "./307multigrains  4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Too much args" "myRslt.txt" "intraRslt.txt" cmd.txt
+for i in `seq 0 $nb_test`
+do
 
-echo "./307multigrains 4 1 1 1" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Not enough args" "myRslt.txt" "intraRslt.txt" cmd.txt
+    exit_value=`cat myMarvin.json | jq '.tests['$i'].exit_value'`
 
-echo "./307multigrains -10 100 10 0 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F1 -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
+    echo -e `cat myMarvin.json | jq '.tests['$i'].output' | tail -c +2 | head -c -2` > intraRslt.txt
+    echo -e `cat myMarvin.json | jq '.tests['$i'].input' | tail -c +2 | head -c -2` > cmd.txt
+    bash cmd.txt > myRslt.txt
 
-echo "./307multigrains a 100 10 0 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F1 -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
+    if [ "$exit_value" = "84" ]
+    then
+        echo -e "exit value: 0" > intraRslt.txt
+    else
+        echo -e "exit value: 0" >> intraRslt.txt
+    fi
+    echo -e "exit value: $?" >> myRslt.txt
 
-echo "./307multigrains 10 -100 10 0 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F2 -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
+    Test "`cat myMarvin.json | jq '.tests['$i'].name' | tail -c +2 | head -c -2`" "myRslt.txt" "intraRslt.txt" cmd.txt
 
-echo "./307multigrains 10 a 10 0 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F2 -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
+done
 
-echo "./307multigrains 10 100 -10 0 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F3 -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 1 a 0 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F3 -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 -1 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F4 -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 1 10 a 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- number of tons of fertilizer F4 -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 -200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of oat -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 a200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of oat -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 -200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of wheat -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 a200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of wheat -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 200 -200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of corn -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 200 a200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of corn -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 200 200 -200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of barley -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 200 200 ad200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of barley -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 200 200 200 -200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of soy -- negatif" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo "./307multigrains 10 100 10 0 200 200 200 200 azd" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" > myRslt.txt
-echo -e "exit value: 84" > intraRslt.txt
-Test "Bad args -- price of one unit of soy -- not a number" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo -e "Resources: 10 F1, 100 F2, 10 F3, 0 F4\n\nOat: 0 units at \$200/unit\nWheat: 10.00 units at \$200/unit\nCorn: 0 units at \$200/unit\nBarley: 0 units at \$200/unit\nSoy: 0 units at \$200/unit\n\nTotal production value: \$2000.00" > intraRslt.txt
-echo "./307multigrains 10 100 10 0 200 200 200 200 200" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" >> myRslt.txt
-echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic - 01" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo -e "Resources: 45 F1, 41 F2, 21 F3, 63 F4\n\nOat: 0 units at \$198/unit\nWheat: 20.00 units at \$259/unit\nCorn: 8.50 units at \$257/unit\nBarley: 1.00 units at \$231/unit\nSoy: 18.25 units at \$312/unit\n\nTotal production value: \$13289.50" > intraRslt.txt
-echo "./307multigrains 45 41 21 63 198 259 257 231 312" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" >> myRslt.txt
-echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic - 02" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-echo -e "Resources: 56 F1, 34 F2, 21 F3, 63 F4\n\nOat: 0.25 units at \$198/unit\nWheat: 13.25 units at \$259/unit\nCorn: 0 units at \$257/unit\nBarley: 7.25 units at \$231/unit\nSoy: 27.88 units at \$312/unit\n\nTotal production value: \$13853.00" > intraRslt.txt
-echo "./307multigrains 56 34 21 63 198 259 257 231 312" > cmd.txt
-bash cmd.txt > myRslt.txt
-echo -e "exit value: $?" >> myRslt.txt
-echo -e "exit value: 0" >> intraRslt.txt
-Test "Basic - 03" "myRslt.txt" "intraRslt.txt" cmd.txt
-
-rm intraRslt.txt 2>/dev/null
-rm myRslt.txt 2>/dev/null
-rm input.txt 2>/dev/null
-rm cmd.txt 2>/dev/null
-
-echo -e -n "${neutre}["
-echo -e -n "${bleufonce}===="
-echo -e -n "${neutre}] Synthesis: Tested: "
-echo -e "${bleufonce}$nbrTest${neutre} | Passing: ${vertfonce}$ok${neutre} | Failing: ${rougefonce}$false${neutre}"
-echo -e -n "${neutre}["
-echo -e -n "${bleufonce}===="
-echo -e -n "${neutre}] Tot: "
-echo -e -n "${vertfonce}"
-echo -e -n 'print("%0.2f" % ('$ok/$nbrTest*100'), end="")' | python3
-echo -e "%"
+clean_repository
