@@ -30,7 +30,7 @@ then
     echo -e -n "\e[3m\t(at your root)\e[0m"
     echo -e -n "${cyanclair}"
     printf "./myMarvin.sh | column -t -s $'\\\t' \n"
-    exit value 0
+    exit 0
 fi
 
 Test()
