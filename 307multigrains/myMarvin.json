@@ -1,0 +1,148 @@
+{
+    "tests": [
+        {
+            "name": "No args",
+            "input": "./307multigrains",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Too much args",
+            "input": "./307multigrains  4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Not enough args",
+            "input": "./307multigrains 4 1 1 1",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F1 -- negatif",
+            "input": "./307multigrains -10 100 10 0 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F1 -- not a number",
+            "input": "./307multigrains a 100 10 0 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F2 -- negatif",
+            "input": "./307multigrains 10 -100 10 0 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F2 -- not a number",
+            "input": "./307multigrains 10 a 10 0 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F3 -- negatif",
+            "input": "./307multigrains 10 100 -10 0 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F3 -- not a number",
+            "input": "./307multigrains 10 10 a 0 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F4 -- negatif",
+            "input": "./307multigrains 10 -100 10 0 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of tons of fertilizer F4 -- not a number",
+            "input": "./307multigrains 10 10 10 -1 200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of oat -- negatif",
+            "input": "./307multigrains 10 100 10 0 -200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of oat -- not a number",
+            "input": "./307multigrains 10 100 10 0 a200 200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of wheat -- negatif",
+            "input": "./307multigrains 10 100 10 0 200 -200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of wheat -- not a number",
+            "input": "./307multigrains 10 100 10 0 200 a200 200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of corn -- negatif",
+            "input": "./307multigrains 10 100 10 0 200 200 -200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of corn -- not a number",
+            "input": "./307multigrains 10 100 10 0 200 200 a200 200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of barley -- negatif",
+            "input": "./307multigrains 10 100 10 0 200 200 200 -200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of barley -- not a number",
+            "input": "./307multigrains 10 100 10 0 200 200 200 a200 200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of soy -- negatif",
+            "input": "./307multigrains 10 100 10 0 200 200 200 200 -200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "ad args -- price of one unit of soy -- not a number",
+            "input": "./307multigrains 10 100 10 0 200 200 200 200 a200",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Basic - 01",
+            "input": "./307multigrains 10 100 10 0 200 200 200 200 200",
+            "output": "Resources: 10 F1, 100 F2, 10 F3, 0 F4\n\nOat: 0 units at $200/unit\nWheat: 10.00 units at $200/unit\nCorn: 0 units at $200/unit\nBarley: 0 units at $200/unit\nSoy: 0 units at $200/unit\n\nTotal production value: $2000.00",
+            "exit_value": 0
+        },
+        {
+            "name": "Basic - 02",
+            "input": "./307multigrains 45 41 21 63 198 259 257 231 312",
+            "output": "Resources: 45 F1, 41 F2, 21 F3, 63 F4\n\nOat: 0 units at $198/unit\nWheat: 20.00 units at $259/unit\nCorn: 8.50 units at $257/unit\nBarley: 1.00 units at $231/unit\nSoy: 18.25 units at $312/unit\n\nTotal production value: $13289.50",
+            "exit_value": 0
+        },
+        {
+            "name": "Basic - 03",
+            "input": "./307multigrains 56 34 21 63 198 259 257 231 312",
+            "output": "Resources: 56 F1, 34 F2, 21 F3, 63 F4\n\nOat: 0.25 units at $198/unit\nWheat: 13.25 units at $259/unit\nCorn: 0 units at $257/unit\nBarley: 7.25 units at $231/unit\nSoy: 27.88 units at $312/unit\n\nTotal production value: $13853.00",
+            "exit_value": 0
+        }
+    ]
+}
