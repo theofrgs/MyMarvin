@@ -47,7 +47,7 @@ function get_user_name
 
 function get_project_name_occurences
 {
-    echo $(find ~/ -type d -wholename "*$project_name*" 2>/dev/null)
+    echo $(find / -type d -wholename "*$project_name*" 2>/dev/null)
 }
 
 if [ -n "$1" ]
