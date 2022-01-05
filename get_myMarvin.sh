@@ -77,7 +77,7 @@ function MyMarvin
     project_path=$1
     project_name=$2
     cd $project_path
-    (rm -rf /tmp/MyMarvin && cd /tmp && git clone https://github.com/theofrgs/MyMarvin.git) && cp -rf /tmp/MyMarvin/$project_name/* . && ./myMarvin.sh | column -t -s $'\t'
+    cp -rf /tmp/MyMarvin/$project_name/* . && ./myMarvin.sh | column -t -s $'\t'
 }
 
 MyMarvin $project_path $project_name
