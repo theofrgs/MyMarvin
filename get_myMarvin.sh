@@ -23,8 +23,8 @@ neutre='\e[0;m'
 function display_help
 {
     printf "Usage:\n"
-    printf "\t./get_myMarvin project_name\n"
-    echo -e "\e[3mex: ./get_myMarvin 307multigrains\e[0m"
+    printf "\t./get_myMarvin [project_name ...]\n"
+    echo -e "\e[3mex: ./get_myMarvin 307multigrains\n    ./get_myMarvin 307multigrains 306radiator\e[0m"
     exit 0
 }
 
@@ -47,30 +47,18 @@ function get_user_name
 
 function get_project_name_occurences
 {
-    echo $(find / -type d -wholename "*$project_name*" 2>/dev/null)
+    project_name=$1
+    echo $(find ~/ -type d -wholename "*B*$project_name*" 2>/dev/null)
 }
-
-if [ -n "$1" ]
-then
-    if  [ "$1" = "--help" ]
-    then
-        display_help
-    else
-        project_name=$1
-    fi
-else
-    display_help
-fi
 
 function get_project_path
 {
+    project_name=$1
     user_name=$(get_user_name)
-    project_name_occurences=$(get_project_name_occurences)
+    project_name_occurences=$(get_project_name_occurences $project_name)
     directorys=(`echo $project_name_occurences | sed 's/,/\n/g'`)
     echo $directorys
 }
-
-project_path=$(get_project_path)
 
 function MyMarvin
 {
@@ -80,4 +68,30 @@ function MyMarvin
     cp -rf /tmp/MyMarvin/$project_name/* . && ./myMarvin.sh | column -t -s $'\t'
 }
 
-MyMarvin $project_path $project_name
+function check_args
+{
+    if [ -n "$1" ]
+    then
+        if  [ "$1" = "--help" ]
+        then
+            display_help
+        else
+            return 0
+        fi
+    else
+        display_help
+    fi
+}
+
+function get_myMarvin
+{
+    args=$@
+    for project_name in $@
+    do
+        project_path=$(get_project_path $project_name)
+        MyMarvin $project_path $project_name
+    done
+}
+
+check_args $@
+get_myMarvin $@
