@@ -48,7 +48,7 @@ function get_user_name
 function get_project_name_occurences
 {
     project_name=$1
-    echo $(find ~/ -type d -wholename "*B*$project_name*" 2>/dev/null)
+    echo $(find / -type d -wholename "*B*$project_name*" 2>/dev/null)
 }
 
 function get_project_path
