@@ -25,7 +25,7 @@ function get_user_name {
 
 function get_project_name_occurences {
     project_name=$1
-    find / -type d -wholename "*B*$project_name*" 2>/dev/null
+    find ~/ -type d -wholename "*B*$project_name*" 2>/dev/null
 }
 
 function get_project_path {
@@ -60,6 +60,8 @@ function my_marvin {
     if [ -n "$(have_marvin_test "$project_name")" ]; then
         cd "$project_path" || exit 84
         cp -rf /tmp/MyMarvin/"$project_name"/* . && ./myMarvin.sh | column -t -s $'\t'
+    else
+        echo "$project_name not found inside MyMarvin"
     fi
 }
 
