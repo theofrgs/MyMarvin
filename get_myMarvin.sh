@@ -82,6 +82,8 @@ function get_my_marvin {
     if [ -n "$current_project" ]; then
         project_path=$(get_project_path "$current_project")
         my_marvin "$project_path" "$current_project"
+    else
+        echo "Your in a directory who isn't tested by MyMarvin"
     fi
 
     for project_name in $args; do
