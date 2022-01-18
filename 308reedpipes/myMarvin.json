@@ -1,0 +1,94 @@
+{
+    "tests": [
+        {
+            "name": "No args",
+            "input": "./308reedpipes",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Too much args",
+            "input": "./308reedpipes  4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1 4 1 1 1",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Not enough args",
+            "input": "./308reedpipes 4 1 1 1",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 0cm abscissa -- negatif",
+            "input": "./308reedpipes -1.5 2 2 2 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 0cm abscissa -- not a number",
+            "input": "./308reedpipes a 2 2 2 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 5cm abscissa -- negatif",
+            "input": "./308reedpipes 1.5 -2 2 2 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 5cm abscissa -- not a number",
+            "input": "./308reedpipes 1.5 aaa 2 2 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 10cm abscissa -- negatif",
+            "input": "./308reedpipes 1.5 2 -2 2 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 10cm abscissa -- not a number",
+            "input": "./308reedpipes 1.5 2 a 2 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 15cm abscissa -- negatif",
+            "input": "./308reedpipes 1.5 2 2 -2 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 15cm abscissa -- not a number",
+            "input": "./308reedpipes 1.5 2 2 a 5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 20cm abscissa -- negatif",
+            "input": "./308reedpipes 1.5 2 2 2 -5 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- radius (in cm) of pipe at the 20cm abscissa -- not a number",
+            "input": "./308reedpipes 1.5 2 2 2 a 11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of points needed to display the radiu -- negatif",
+            "input": "./308reedpipes 1.5 2 2 2 5 -11",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of points needed to display the radiu -- not a number",
+            "input": "./308reedpipes 1.5 2 2 2 5 aa",
+            "output": "",
+            "exit_value": 84
+        }
+    ]
+}
