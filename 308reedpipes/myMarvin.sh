@@ -21,7 +21,7 @@ ok=0
 false=0
 nbrTest=0
 
-nb_test=$((`cat myMarvin.json | jq '.tests | length'` - 1))
+nb_test=$(($(jq '.tests | length' < myMarvin.json) - 1))
 
 if [ "$1" = "--help" ]
 then
@@ -38,8 +38,8 @@ Test()
     testTitle="$1"
     myRslt="$2"
     expectedRslt="$3"
-    cmd="$4"
-    diff $myRslt $expectedRslt > trace.txt
+    cmd_file="$4"
+    diff "$myRslt" "$expectedRslt" > trace.txt
 
     echo -e -n "${jaune}$testTitle:"
     if [ -s trace.txt ]
@@ -48,7 +48,7 @@ Test()
         echo -e -n "${neutre}"
         # read -p "Display it ?(y/n): " display
         false=$((false+1))
-        echo -e "\e[3m\"$(< cmd.txt)\"\e[0m"
+        echo -e "\e[3m\"$(< "$cmd_file")\"\e[0m"
         display="y"
         if [ "$display" = "y" ]
         then
