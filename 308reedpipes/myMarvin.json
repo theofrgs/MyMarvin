@@ -89,6 +89,24 @@
             "input": "./308reedpipes 1.5 2 2 2 5 aa",
             "output": "",
             "exit_value": 84
+        },
+        {
+            "name": "Bad args -- number of points needed to display the radiu -- 0",
+            "input": "./308reedpipes 1.5 2 2 2 5 0",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Basic 01 -- Intra -- 1",
+            "input": "./308reedpipes 1.5 2 2 2 5 11",
+            "output": "vector result: [0.0, 0.0, 0.0, 0.2, 0.0]\nabscissa: 0.0 cm\tradius: 1.5 cm\nabscissa: 2.0 cm\tradius: 1.7 cm\nabscissa: 4.0 cm\tradius: 1.9 cm\nabscissa: 6.0 cm\tradius: 2.1 cm\nabscissa: 8.0 cm\tradius: 2.1 cm\nabscissa: 10.0 cm\tradius: 2.0 cm\nabscissa: 12.0 cm\tradius: 1.8 cm\nabscissa: 14.0 cm\tradius: 1.8 cm\nabscissa: 16.0 cm\tradius: 2.4 cm\nabscissa: 18.0 cm\tradius: 3.5 cm\nabscissa: 20.0 cm\tradius: 5.0 cm",
+            "exit_value": 0
+        },
+        {
+            "name": "Basic 02 -- Intra -- 2",
+            "input": "./308reedpipes 2 3 2 4 5 13",
+            "output": "vector result: [0.0, -0.2, 0.3, -0.1, 0.0]\nabscissa: 0.0 cm\tradius: 2.0 cm\nabscissa: 1.7 cm\tradius: 2.6 cm\nabscissa: 3.3 cm\tradius: 3.0 cm\nabscissa: 5.0 cm\tradius: 3.0 cm\nabscissa: 6.7 cm\tradius: 2.6 cm\nabscissa: 8.3 cm\tradius: 2.2 cm\nabscissa: 10.0 cm\tradius: 2.0 cm\nabscissa: 11.7 cm\tradius: 2.4 cm\nabscissa: 13.3 cm\tradius: 3.2 cm\nabscissa: 15.0 cm\tradius: 4.0 cm\nabscissa: 16.7 cm\tradius: 4.5 cm\nabscissa: 18.3 cm\tradius: 4.8 cm\nabscissa: 20.0 cm\tradius: 5.0 cm",
+            "exit_value": 0
         }
     ]
 }
