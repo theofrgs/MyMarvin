@@ -72,25 +72,43 @@ function clean_repository()
     rm cmd.txt 2>/dev/null
 }
 
-for i in `seq 0 $nb_test`
-do
+function myMarvin
+{
+    for i in `seq 0 $nb_test`
+    do
+        exit_value=`cat myMarvin.json | jq '.tests['$i'].exit_value'`
 
-    exit_value=`cat myMarvin.json | jq '.tests['$i'].exit_value'`
+        echo -e `cat myMarvin.json | jq '.tests['$i'].output' | tail -c +2 | head -c -2` > intraRslt.txt
+        echo -e `cat myMarvin.json | jq '.tests['$i'].input' | tail -c +2 | head -c -2` > cmd.txt
+        bash cmd.txt > myRslt.txt
 
-    echo -e `cat myMarvin.json | jq '.tests['$i'].output' | tail -c +2 | head -c -2` > intraRslt.txt
-    echo -e `cat myMarvin.json | jq '.tests['$i'].input' | tail -c +2 | head -c -2` > cmd.txt
-    bash cmd.txt > myRslt.txt
+        if [ "$exit_value" = "84" ]
+        then
+            echo -e "exit value: 0" > intraRslt.txt
+        else
+            echo -e "exit value: 0" >> intraRslt.txt
+        fi
+        echo -e "exit value: $?" >> myRslt.txt
 
-    if [ "$exit_value" = "84" ]
-    then
-        echo -e "exit value: 0" > intraRslt.txt
-    else
-        echo -e "exit value: 0" >> intraRslt.txt
-    fi
-    echo -e "exit value: $?" >> myRslt.txt
+        Test "`cat myMarvin.json | jq '.tests['$i'].name' | tail -c +2 | head -c -2`" "myRslt.txt" "intraRslt.txt" cmd.txt
+    done
+}
 
-    Test "`cat myMarvin.json | jq '.tests['$i'].name' | tail -c +2 | head -c -2`" "myRslt.txt" "intraRslt.txt" cmd.txt
+function display_percent
+{
+    echo -e -n "${neutre}["
+    echo -e -n "${bleufonce}===="
+    echo -e -n "${neutre}] Synthesis: Tested: "
+    echo -e "${bleufonce}$nbrTest${neutre} | Passing: ${vertfonce}$ok${neutre} | Failing: ${rougefonce}$false${neutre}"
+    echo -e -n "${neutre}["
+    echo -e -n "${bleufonce}===="
+    echo -e -n "${neutre}] Tot: "
+    echo -e -n "${vertfonce}"
+    echo -e -n 'print("%0.2f" % ('$ok/$nbrTest*100'), end="")' | python3
+    echo -e "%"
+}
 
-done
+myMarvin
+display_percent
 
 clean_repository

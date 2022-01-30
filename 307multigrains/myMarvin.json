@@ -67,20 +67,8 @@
             "exit_value": 84
         },
         {
-            "name": "ad args -- price of one unit of oat -- negatif",
-            "input": "./307multigrains 10 100 10 0 -200 200 200 200 200",
-            "output": "",
-            "exit_value": 84
-        },
-        {
             "name": "ad args -- price of one unit of oat -- not a number",
             "input": "./307multigrains 10 100 10 0 a200 200 200 200 200",
-            "output": "",
-            "exit_value": 84
-        },
-        {
-            "name": "ad args -- price of one unit of wheat -- negatif",
-            "input": "./307multigrains 10 100 10 0 200 -200 200 200 200",
             "output": "",
             "exit_value": 84
         },
@@ -91,32 +79,14 @@
             "exit_value": 84
         },
         {
-            "name": "ad args -- price of one unit of corn -- negatif",
-            "input": "./307multigrains 10 100 10 0 200 200 -200 200 200",
-            "output": "",
-            "exit_value": 84
-        },
-        {
             "name": "ad args -- price of one unit of corn -- not a number",
             "input": "./307multigrains 10 100 10 0 200 200 a200 200 200",
             "output": "",
             "exit_value": 84
         },
         {
-            "name": "ad args -- price of one unit of barley -- negatif",
-            "input": "./307multigrains 10 100 10 0 200 200 200 -200 200",
-            "output": "",
-            "exit_value": 84
-        },
-        {
             "name": "ad args -- price of one unit of barley -- not a number",
             "input": "./307multigrains 10 100 10 0 200 200 200 a200 200",
-            "output": "",
-            "exit_value": 84
-        },
-        {
-            "name": "ad args -- price of one unit of soy -- negatif",
-            "input": "./307multigrains 10 100 10 0 200 200 200 200 -200",
             "output": "",
             "exit_value": 84
         },
@@ -142,6 +112,12 @@
             "name": "Basic - 03",
             "input": "./307multigrains 56 34 21 63 198 259 257 231 312",
             "output": "Resources: 56 F1, 34 F2, 21 F3, 63 F4\n\nOat: 0.25 units at $198/unit\nWheat: 13.25 units at $259/unit\nCorn: 0 units at $257/unit\nBarley: 7.25 units at $231/unit\nSoy: 27.88 units at $312/unit\n\nTotal production value: $13853.00",
+            "exit_value": 0
+        },
+        {
+            "name": "Basic - 04",
+            "input": "./307multigrains 100 100 100 100 10 10 10 10 10",
+            "output": "Resources: 100 F1, 100 F2, 100 F3, 100 F4\n\nOat: 25.00 units at $10/unit\nWheat: 25.00 units at $10/unit\nCorn: 0 units at $10/unit\nBarley: 25.00 units at $10/unit\nSoy: 37.50 units at $10/unit\n\nTotal production value: $1125.00",
             "exit_value": 0
         }
     ]
