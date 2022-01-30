@@ -32,7 +32,7 @@ function get_project_path {
     project_name=$1
     # user_name=$(get_user_name)
 
-    project_name_occurences=$(get_project_name_occurences "307")
+    project_name_occurences=$(get_project_name_occurences "$project_name")
     IFS=' ' read -ra directorys <<<"$project_name_occurences"
     echo "${directorys[0]}"
 }
