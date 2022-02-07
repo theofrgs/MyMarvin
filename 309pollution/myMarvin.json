@@ -20,61 +20,61 @@
         },
         {
             "name": "Bad args -- number of points on the grid axis -- negatif",
-            "input": "./309pollution -3 file.csv 0 2",
+            "input": "./309pollution -3 tmpFile.csv 0 2",
             "output": "",
             "exit_value": 84
         },
         {
             "name": "Bad args -- number of points on the grid axis -- 0",
-            "input": "./309pollution 0 file.csv 0 2",
+            "input": "./309pollution 0 tmpFile.csv 0 2",
             "output": "0.00",
             "exit_value": 0
         },
         {
             "name": "Bad args -- number of points on the grid axis -- bad type",
-            "input": "./309pollution a file.csv 0 2",
+            "input": "./309pollution a tmpFile.csv 0 2",
             "output": "",
             "exit_value": 84
         },
         {
             "name": "Bad args -- abscissa of the point whose pollution level we want to know -- bad type",
-            "input": "./309pollution 3 file.csv a 2",
+            "input": "./309pollution 3 tmpFile.csv a 2",
             "output": "",
             "exit_value": 84
         },
         {
             "name": "Bad args -- ordinate of the point whose pollution level we want to know -- bad type",
-            "input": "./309pollution 0 file.csv 0 t",
+            "input": "./309pollution 0 tmpFile.csv 0 t",
             "output": "",
             "exit_value": 84
         },
         {
             "name": "intra -- 01",
-            "input": "./309pollution 3 file.csv 0 2",
+            "input": "./309pollution 3 tmpFile.csv 0 2",
             "output": "0.00",
             "exit_value": 0
         },
         {
             "name": "intra -- 02",
-            "input": "./309pollution 3 file.csv 0.6 2",
+            "input": "./309pollution 3 tmpFile.csv 0.6 2",
             "output": "28.20",
             "exit_value": 0
         },
         {
             "name": "intra -- 03",
-            "input": "./309pollution 3 file.csv 1.3 2",
+            "input": "./309pollution 3 tmpFile.csv 1.3 2",
             "output": "56.55",
             "exit_value": 0
         },
         {
             "name": "intra -- 04",
-            "input": "./309pollution 3 file.csv 1 1.5",
+            "input": "./309pollution 3 tmpFile.csv 1 1.5",
             "output": "33.94",
             "exit_value": 0
         },
         {
             "name": "intra -- 05",
-            "input": "./309pollution 3 file.csv 0.8 0.8",
+            "input": "./309pollution 3 tmpFile.csv 0.8 0.8",
             "output": "26.11",
             "exit_value": 0
         }

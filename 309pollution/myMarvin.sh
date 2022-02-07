@@ -64,12 +64,18 @@ Test()
 
 clear
 
+function initTest309
+{
+    echo -e "0;0;20\n0;1;12\n1;0;50\n1;1;30\n1;2;50\n2;2;80" > tmpFile.csv
+}
+
 function clean_repository()
 {
     rm intraRslt.txt 2>/dev/null
     rm myRslt.txt 2>/dev/null
     rm input.txt 2>/dev/null
     rm cmd.txt 2>/dev/null
+    rm tmpFile.csv 2>/dev/null
 }
 
 function myMarvin
@@ -108,7 +114,7 @@ function display_percent
     echo -e "%"
 }
 
+initTest309
 myMarvin
 display_percent
-
 clean_repository
