@@ -44,7 +44,19 @@
         },
         {
             "name": "Bad args -- ordinate of the point whose pollution level we want to know -- bad type",
-            "input": "./309pollution 0 tmpFile.csv 0 t",
+            "input": "./309pollution 3 tmpFile.csv 0 t",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- abscissa of the point whose pollution level we want to know -- negative number",
+            "input": "./309pollution 3 tmpFile.csv -6 2",
+            "output": "",
+            "exit_value": 84
+        },
+        {
+            "name": "Bad args -- ordinate of the point whose pollution level we want to know -- negative number",
+            "input": "./309pollution 3 tmpFile.csv 0 -1",
             "output": "",
             "exit_value": 84
         },
